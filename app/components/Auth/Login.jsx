@@ -22,29 +22,42 @@ const Login = ({ setRoute }) => {
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: schema,
-    onSubmit: async ({ email, password }) => {
-      await login({ email, password });
+    onSubmit: async (values, { setSubmitting }) => {
+      setSubmitting(true);
+      try {
+        await login(values);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setSubmitting(false);
+      }
     },
   });
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    formik.handleSubmit();
+  }
 
   useEffect(() => {
     if (isSuccess) {
       toast.success("Login Successfully");
-      redirect("/");
+      redirect("/admin");
     }
     if (error) {
       if ("data" in error) {
         const errorData = error;
+        console.log("error", errorData.data?.message)
         toast.error(errorData.data?.message);
       }
     }
   }, [error, isSuccess]);
 
-  const { errors, touched, values, handleChange, handleSubmit } = formik;
+  const { errors, touched, values, handleChange } = formik;
   return (
     <div className="w-full">
       <h1 className={`${styles.title}`}>Login with Learning</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmitHandler}>
         <label className={`${styles.label}`} htmlFor="email">
           Enter your email
         </label>

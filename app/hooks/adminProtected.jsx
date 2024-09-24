@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { redirect } from "next/navigation";
 
-export default function AdminProtected({ children }) {
-  const user = useSelector((state) => state.auth);
+const AdminProtected = ({ children }) => {
+  const { user } = useSelector((state) => state.auth);
   const [isAdmin, setIsAdmin] = useState(null);
 
   useEffect(() => {
@@ -24,4 +24,6 @@ export default function AdminProtected({ children }) {
   }
 
   return isAdmin ? <>{children}</> : null;
-}
+};
+
+export default AdminProtected;
