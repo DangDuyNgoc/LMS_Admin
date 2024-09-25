@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import CourseInformation from "./CourseInformation";
 import CourseOptions from "./CourseOptions";
+import CoursePreview from './CoursePreview';
+import CourseContent from './CourseContent';
 
 const CreateCourse = () => {
   const [active, setActive] = useState(0);
@@ -21,7 +23,7 @@ const CreateCourse = () => {
       videoUrl: "",
       title: "",
       description: "",
-      videoSection: "",
+      videoSection: "Untitled Section",
       links: [
         {
           title: "",
@@ -33,6 +35,10 @@ const CreateCourse = () => {
   ]);
 
   const [courseData, setCourseData] = useState({});
+
+  const handleSubmit = async () => {
+
+  }
 
   useEffect(() => {
     const data = {
@@ -62,11 +68,12 @@ const CreateCourse = () => {
         )}
 
         {active === 1 && (
-          <CourseData
-            courseInfo={courseInfo}
-            setCourseInfo={setCourseInfo}
+          <CourseContent
+            courseContentData={courseContentData}
+            setCourseContentData={setCourseContentData}
             active={active}
             setActive={setActive}
+            handleSubmit={handleSubmit}
           />
         )}
       </div>
