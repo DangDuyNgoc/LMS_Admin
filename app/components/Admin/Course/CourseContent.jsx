@@ -2,7 +2,7 @@ import { styles } from "@/app/styles/style";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { AiOutlineDelete, AiOutlinePlusCircle } from "react-icons/ai";
-import { BsLink45Deg } from "react-icons/bs";
+import { BsLink45Deg, BsPencil } from "react-icons/bs";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 const CourseContent = ({
@@ -35,11 +35,11 @@ const CourseContent = ({
 
   const handleAddLink = (index) => {
     const updateData = [...courseContentData];
-    updateData[index].link.push({ title: "", url: "" });
+    updateData[index].links.push({ title: "", url: "" });
     setCourseContentData(updateData);
   };
 
-  const handleNewContent = () => {
+  const handleNewContent = (item) => {
     if (
       item.title === "" ||
       item.description === "" ||
@@ -85,6 +85,17 @@ const CourseContent = ({
       courseContentDataLength.links[0].url === ""
     ) {
       toast.error("Please fill all the fields first!");
+    } else {
+      setActiveSection(activeSection + 1);
+      const newContent = {
+        videoUrl: "",
+        title: "",
+        description: "",
+        videoSection: `Untitled Section ${activeSection}`,
+        links: [{ title: "", url: "" }],
+      };
+
+      setCourseContentData([...courseContentData, newContent]);
     }
   };
 
@@ -140,6 +151,7 @@ const CourseContent = ({
                           setCourseContentData(updateData);
                         }}
                       />
+                      <BsPencil className="cursor-pointer dark:text-white text-black" />
                     </div>
                     <br />
                   </>

@@ -76,6 +76,16 @@ const CreateCourse = () => {
             handleSubmit={handleSubmit}
           />
         )}
+
+        {active === 2 && (
+          <CourseContent
+            courseContentData={courseContentData}
+            setCourseContentData={setCourseContentData}
+            active={active}
+            setActive={setActive}
+            handleSubmit={handleSubmit}
+          />
+        )}
       </div>
       <div className="w-[20%] mt-[100px] h-screen fixed z-[-1] top-18 right-0">
         <CourseOptions active={active} setActive={setActive} />

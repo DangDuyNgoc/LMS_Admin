@@ -20,7 +20,7 @@ const CourseOptions = ({ active, setActive }) => {
           <div  className={`w-[35px] h-[35px] rounded-full flex items-center justify-center ${
             active + 1 > index ? "bg-blue-500" : "bg-[#384766]"
           } relative`}>
-          <IoMdCheckmark className="text-[25px] " />
+          <IoMdCheckmark fill="white" className="text-[25px] " />
           {index !== options.length - 1 && (
             <div
               className={`absolute h-[30px] w-1 ${
