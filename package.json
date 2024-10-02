@@ -15,6 +15,7 @@
     "@mui/material": "^6.1.0",
     "@reduxjs/toolkit": "^2.2.7",
     "admin-2": "file:",
+    "axois": "^0.0.1-security",
     "formik": "^2.4.6",
     "next": "14.2.11",
     "next-auth": "^4.24.7",

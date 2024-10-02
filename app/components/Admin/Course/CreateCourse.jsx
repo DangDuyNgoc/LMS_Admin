@@ -55,6 +55,11 @@ const CreateCourse = () => {
     setCourseData(data);
   }, [courseInfo]);
 
+  const handleCourseCreate = async () => {
+    const data = courseData;
+
+  }
+
   return (
     <div className="w-full flex min-h-screen">
       <div className="w-[80%]">
@@ -78,12 +83,11 @@ const CreateCourse = () => {
         )}
 
         {active === 2 && (
-          <CourseContent
-            courseContentData={courseContentData}
-            setCourseContentData={setCourseContentData}
+          <CoursePreview
             active={active}
             setActive={setActive}
-            handleSubmit={handleSubmit}
+            courseData={courseData}
+            handleCourseCreate={handleCourseCreate}
           />
         )}
       </div>
