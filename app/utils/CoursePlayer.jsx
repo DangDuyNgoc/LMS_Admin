@@ -36,8 +36,6 @@ const CoursePlayer = ({ videoUrl }) => {
           allow="encrypted-media"
         ></iframe>
       )}
-      <h1></h1>
-      CoursePlayer
     </div>
   );
 };

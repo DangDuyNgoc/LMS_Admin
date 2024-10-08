@@ -2,10 +2,27 @@
 import React, { useState, useEffect } from "react";
 import CourseInformation from "./CourseInformation";
 import CourseOptions from "./CourseOptions";
-import CoursePreview from './CoursePreview';
-import CourseContent from './CourseContent';
+import CoursePreview from "./CoursePreview";
+import CourseContent from "./CourseContent";
+import { useCreateCourseMutation } from "@/redux/features/courses/coursesApi";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 const CreateCourse = () => {
+  const [createCourse, { isLoading, isSuccess, error }] =
+    useCreateCourseMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Course Created Successfully");
+      // redirect("/admin/courses");
+    }
+    if (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(errorMessage.data.message);
+    }
+  }, [isLoading, isSuccess, error]);
+
   const [active, setActive] = useState(0);
   const [courseInfo, setCourseInfo] = useState({
     name: "",
@@ -37,28 +54,45 @@ const CreateCourse = () => {
   const [courseData, setCourseData] = useState({});
 
   const handleSubmit = async () => {
+    const formatCourseContent = courseContentData.map((courseContent) => ({
+      videoUrl: courseContent.videoUrl,
+      title: courseContent.title,
+      description: courseContent.description,
+      videoSection: courseContent.videoSection,
+      videoLength: courseContent.videoLength,
+      links: courseContent.links.map((link) => ({
+        title: link.title,
+        url: link.url,
+      })),
+      suggestion: courseContent.suggestion,
+    }));
 
-  }
-
-  useEffect(() => {
     const data = {
       name: courseInfo.name,
       description: courseInfo.description,
       price: courseInfo.price,
+      estimatedPrice: courseInfo.estimatedPrice,
       categories: courseInfo.categories,
       tag: courseInfo.tag,
       level: courseInfo.level,
       demoUrl: courseInfo.demoUrl,
       thumbnail: courseInfo.thumbnail,
+      totalVideos: courseContentData.length,
+      courseData: formatCourseContent,
     };
 
     setCourseData(data);
-  }, [courseInfo]);
+  };
 
-  const handleCourseCreate = async () => {
+  const handleCreateCourse = async () => {
     const data = courseData;
 
-  }
+    console.log("Data to be sent:", data);
+
+    if (!isLoading) {
+      await createCourse(data);
+    }
+  };
 
   return (
     <div className="w-full flex min-h-screen">
@@ -87,7 +121,7 @@ const CreateCourse = () => {
             active={active}
             setActive={setActive}
             courseData={courseData}
-            handleCourseCreate={handleCourseCreate}
+            handleCreateCourse={handleCreateCourse}
           />
         )}
       </div>

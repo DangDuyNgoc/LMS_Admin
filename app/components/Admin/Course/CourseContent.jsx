@@ -127,12 +127,11 @@ const CourseContent = ({
             index === 0 ||
             item.videoSection !== courseContentData[index - 1].videoSection;
           return (
-            <>
+            <div key={item.id}>
               <div
                 className={`w-full bg-[#cdc8c817] p-4 ${
                   showSectionInput ? "mt-10" : "mb-0"
                 }`}
-                key={index}
               >
                 {showSectionInput && (
                   <>
@@ -343,7 +342,7 @@ const CourseContent = ({
                   </div>
                 )}
               </div>
-            </>
+            </div>
           );
         })}
         <br />

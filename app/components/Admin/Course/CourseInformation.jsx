@@ -31,7 +31,7 @@ const CourseInformation = ({
     setDragging(false);
 
     const file = e.dataTransfer.files?.[0];
-    if(file) {
+    if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         if (reader.readyState === 2) {
@@ -58,7 +58,7 @@ const CourseInformation = ({
   };
 
   const handleRemoveImage = () => {
-    setCourseInfo({ ...courseInfo, thumbnail: "" }); 
+    setCourseInfo({ ...courseInfo, thumbnail: "" });
   };
 
   return (
@@ -102,14 +102,30 @@ const CourseInformation = ({
             <label className={`${styles.label}`}>Course Price</label>
             <input
               type="number"
-              name="price"
-              id="price"
+              name=""
+              id=""
               placeholder="Enter course price"
               className={`${styles.input}`}
               required
               value={courseInfo.price}
               onChange={(e) =>
                 setCourseInfo({ ...courseInfo, price: e.target.value })
+              }
+            />
+          </div>
+          <div className="w-[50%]">
+            <label className={`${styles.label} w-[50%]`}>
+              Estimated Price (optional)
+            </label>
+            <input
+              type="number"
+              name=""
+              id="price"
+              placeholder="Enter course estimated price"
+              className={`${styles.input}`}
+              value={courseInfo.estimatedPrice}
+              onChange={(e) =>
+                setCourseInfo({ ...courseInfo, estimatedPrice: e.target.value })
               }
             />
           </div>
@@ -199,7 +215,9 @@ const CourseInformation = ({
           />
           <label
             htmlFor="file"
-            className={`${dragging ? "bg-blue-500" : "bg-transparent"}`}
+            className={`w-full min-h-[10vh] dark:border-white border-[#00000026] p-3 border flex items-center justify-center ${
+              dragging ? "bg-blue-500" : "bg-transparent"
+            }`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
@@ -209,9 +227,9 @@ const CourseInformation = ({
                 <Image
                   src={courseInfo.thumbnail}
                   alt="Course Thumbnail"
-                  width={700} 
+                  width={700}
                   objectFit="cover"
-                  height={475} 
+                  height={475}
                 />
                 <button
                   type="button"

@@ -34,7 +34,7 @@ const CourseOptions = ({ active, setActive }) => {
               active === index
                 ? "dark:text-white text-black"
                 : "dark:text-white text-black"
-            }text-[20px]`}
+            }`}
           >
             {option}
           </h5> 
