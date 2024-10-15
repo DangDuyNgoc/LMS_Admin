@@ -15,7 +15,7 @@ const CreateCourse = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Course Created Successfully");
-      // redirect("/admin/courses");
+      redirect("/admin/courses");
     }
     if (error) {
       const errorMessage = error?.data?.message;

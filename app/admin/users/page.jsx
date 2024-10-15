@@ -4,7 +4,7 @@ import AdminSidebar from "./../../components/Admin/sidebar/AdminSidebar";
 import AdminProtected from "@/app/hooks/adminProtected";
 import DashboardHero from "@/app/components/Admin/DashboardHero";
 import Header from './../../utils/Header';
-import AllCourses from './../../components/Admin/Course/AllCourses';
+import AllUsers from './../../components/Admin/Users/AllUsers';
 
 const page = () => {
   return (
@@ -21,7 +21,7 @@ const page = () => {
           </div>
           <div className="w-[85%]">
             <DashboardHero />
-            <AllCourses />
+            <AllUsers />
           </div>
         </div>
       </AdminProtected>

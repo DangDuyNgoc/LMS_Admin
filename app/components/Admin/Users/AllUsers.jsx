@@ -1,38 +1,25 @@
 import React from "react";
 import { useTheme } from "next-themes";
 import { Box, Button } from "@mui/material";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineMail  } from "react-icons/ai";
 import { FiEdit2 } from "react-icons/fi";
 import { DataGrid } from "@mui/x-data-grid";
 import { format } from "timeago.js";
 
-import { useGetAllCoursesQuery } from "@/redux/features/courses/coursesApi";
+import { useGetAllUsersQuery } from '@/redux/features/user/userApi';
 import Loader from "./../../Loader/Loader";
 
-const AllCourses = () => {
+const AllUsers = () => {
   const { theme, setTheme } = useTheme();
-  const { isLoading, data, error } = useGetAllCoursesQuery({});
+  const { isLoading, data, error } = useGetAllUsersQuery({});
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "title", headerName: "Course Title", flex: 1 },
-    { field: "ratings", headerName: "Ratings", flex: 0.5 },
-    { field: "purchased", headerName: "Purchased", flex: 0.5 },
-    { field: "created_at", headerName: "Created At", flex: 0.5 },
-    {
-      field: "edit",
-      headerName: "Edit",
-      flex: 0.2,
-      renderCell: (params) => {
-        return (
-          <>
-            <Button>
-              <FiEdit2 className="dark:text-white text-black" size={20} />
-            </Button>
-          </>
-        );
-      },
-    },
+    { field: "name", headerName: "Name", flex: 0.5 },
+    { field: "email", headerName: "Email", flex: 0.5 },
+    { field: "role", headerName: "Role", flex: 0.5 },
+    { field: "courses", headerName: "Purchased Courses", flex: 0.5 },
+    { field: "created_at", headerName: "Joined At", flex: 0.5 },
     {
       field: " ",
       headerName: "Delete",
@@ -50,18 +37,36 @@ const AllCourses = () => {
         );
       },
     },
+    {
+      field: "  ",
+      headerName: "Email",
+      flex: 0.2,
+      renderCell: (params) => {
+        return (
+          <>
+            <Button>
+              <AiOutlineMail 
+                className="dark:text-white text-black"
+                size={20}
+              />
+            </Button>
+          </>
+        );
+      },
+    },
   ];
 
   const rows = [];
 
   {
     data &&
-      data.courses.forEach((item) => {
+      data.users.forEach((item) => {
         rows.push({
           id: item._id,
-          title: item.name,
-          ratings: item.ratings,
-          purchased: item.purchased,
+          name: item.name,
+          email: item.email,
+          role: item.role,
+          courses: item.courses.length,
           created_at: format(item.createdAt),
         });
       });
@@ -137,4 +142,4 @@ const AllCourses = () => {
   );
 };
 
-export default AllCourses;
+export default AllUsers;
