@@ -19,7 +19,7 @@ const page = () => {
           <div className="15000px:w-[16%] w-1/5">
             <AdminSidebar />
           </div>
-          <div className="w-[85%]">
+          <div className="w-[100%]">
             <DashboardHero />
             <AllUsers isTeam={true} />
           </div>

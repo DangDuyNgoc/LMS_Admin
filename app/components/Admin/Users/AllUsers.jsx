@@ -8,7 +8,7 @@ import { format } from "timeago.js";
 import {
   useGetAllUsersQuery,
   useUpdateUserRoleMutation,
-  useDeleteUserMutation
+  useDeleteUserMutation,
 } from "@/redux/features/user/userApi";
 import Loader from "./../../Loader/Loader";
 import { styles } from "@/app/styles/style";
@@ -20,29 +20,39 @@ const AllUsers = ({ isTeam }) => {
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState("");
   const { theme, setTheme } = useTheme();
-  const { isLoading, data, error } = useGetAllUsersQuery({}, {refetch});
+  const { isLoading, data, refetch } = useGetAllUsersQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
   const [updateUserRole, { error: updateError, isSuccess }] =
     useUpdateUserRoleMutation();
-  const [deleteUser, {isSuccess: deleteSuccess, error: deleteError}] = useDeleteUserMutation();
+  const [deleteUser, { isSuccess: deleteSuccess, error: deleteError }] =
+    useDeleteUserMutation();
 
   useEffect(() => {
     if (updateError) {
       toast.error(updateError.data.message);
     }
     if (isSuccess) {
+      refetch();
       setActive(false);
       toast.success("User role updated successfully");
     }
 
-    if(deleteSuccess) {
+    
+  }, [updateError, isSuccess, refetch]);
+
+  useEffect(() => {
+    if (deleteSuccess) {
       setOpen(false);
-      toast.success(deleteSuccess.data.message);
+      refetch();
+      toast.success("Delete user successfully!");
     }
     if (deleteError) {
       toast.error(deleteError.data.message);
     }
-  }, [updateError, isSuccess, deleteSuccess, deleteError]);
-
+  }, [deleteSuccess, deleteError, refetch]);
+  
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
     { field: "name", headerName: "Name", flex: 0.5 },
@@ -76,7 +86,10 @@ const AllUsers = ({ isTeam }) => {
           <>
             <Button>
               <a href={`mail to: ${params.row.email}`}>
-                <AiOutlineMail className="dark:text-white text-black" size={20} />
+                <AiOutlineMail
+                  className="dark:text-white text-black"
+                  size={20}
+                />
               </a>
             </Button>
           </>
@@ -217,7 +230,7 @@ const AllUsers = ({ isTeam }) => {
                   <select
                     name=""
                     id=""
-                    className={`${styles.input} !mt-6`}
+                    className="w-full text-black dark:text-white border rounded h-[40px] px-2 outline-none mt-[10px] font-Poppins cursor-pointer !mt-6"
                     onChange={(e) => setRole(e.target.value)}
                   >
                     <option value="admin">Admin</option>

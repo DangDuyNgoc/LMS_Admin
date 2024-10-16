@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useTheme } from "next-themes";
 import { Box, Button } from "@mui/material";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -11,6 +11,7 @@ import Loader from "./../../Loader/Loader";
 
 const AllCourses = () => {
   const { theme, setTheme } = useTheme();
+  const [open, setOpen] = useState(false);
   const { isLoading, data, error } = useGetAllCoursesQuery({});
 
   const columns = [
@@ -40,7 +41,9 @@ const AllCourses = () => {
       renderCell: (params) => {
         return (
           <>
-            <Button>
+            <Button
+            onClick={() => setOpen(!open) || setUserId(params.row.id)}
+            >
               <AiOutlineDelete
                 className="dark:text-white text-black"
                 size={20}
