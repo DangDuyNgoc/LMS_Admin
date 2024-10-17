@@ -8,6 +8,7 @@ const CoursePreview = ({
   handleCreateCourse,
   active,
   setActive,
+  isEdit,
 }) => {
   const discountPercent =
     ((courseData?.estimatedPrice - courseData?.price) /
@@ -22,7 +23,7 @@ const CoursePreview = ({
 
   const createCourse = () => {
     handleCreateCourse();
-  }
+  };
 
   return (
     <div className="w-[90%] m-auto py-5 mb-5">
@@ -41,7 +42,9 @@ const CoursePreview = ({
           <h5 className="pl-3 text-[20px] mt-2 line-through opacity-80 dark:text-white text-black">
             {courseData?.estimatedPrice}$
           </h5>
-          <h5 className="pl-5 pt-4 text-[22px] dark:text-white text-black">{discount}% OFF</h5>
+          <h5 className="pl-5 pt-4 text-[22px] dark:text-white text-black">
+            {discount}% OFF
+          </h5>
         </div>
 
         <div className="flex items-center">
@@ -66,10 +69,18 @@ const CoursePreview = ({
             Apply
           </div>
         </div>
-        <p className="pb-1 dark:text-white text-black">• Source code included</p>
-        <p className="pb-1 dark:text-white text-black">• Full lifetime access</p>
-        <p className="pb-1 dark:text-white text-black">• Certificate of completion</p>
-        <p className="pb-3 dark:text-white text-black 800px:pb-1">• Premium Support</p>
+        <p className="pb-1 dark:text-white text-black">
+          • Source code included
+        </p>
+        <p className="pb-1 dark:text-white text-black">
+          • Full lifetime access
+        </p>
+        <p className="pb-1 dark:text-white text-black">
+          • Certificate of completion
+        </p>
+        <p className="pb-3 dark:text-white text-black 800px:pb-1">
+          • Premium Support
+        </p>
       </div>
 
       <div className="w-full">
@@ -110,7 +121,9 @@ const CoursePreview = ({
         <div
           className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           onClick={() => createCourse()}
-        >Create Course</div>
+        >
+          {isEdit ? "Update Course" : "Create Course"}
+        </div>
       </div>
     </div>
   );

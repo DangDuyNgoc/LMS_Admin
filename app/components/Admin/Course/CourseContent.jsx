@@ -145,8 +145,9 @@ const CourseContent = ({
                         } dark:text-white text-black bg-transparent outline-none font-Poppins cursor-pointer`}
                         value={item.videoSection}
                         onChange={(e) => {
-                          const updateData = [...courseContentData];
-                          updateData[index].videoSection = e.target.value;
+                          const updateData = courseContentData.map((content, i) => 
+                            i === index ? { ...content, title: e.target.value } : content
+                          );
                           setCourseContentData(updateData);
                         }}
                       />
@@ -210,8 +211,9 @@ const CourseContent = ({
                         className={`${styles.input}`}
                         value={item.title}
                         onChange={(e) => {
-                          const updateData = [...courseContentData];
-                          updateData[index].title = e.target.value;
+                          const updateData = courseContentData.map((content, i) => 
+                            i === index ? { ...content, title: e.target.value } : content
+                          );
                           setCourseContentData(updateData);
                         }}
                       />
@@ -295,9 +297,18 @@ const CourseContent = ({
                           className={`${styles.input}`}
                           value={link.title}
                           onChange={(e) => {
-                            const updatedData = [...courseContentData];
-                            updatedData[index].links[linkIndex].title =
-                              e.target.value;
+                            const updatedData = courseContentData.map((content, i) => 
+                              i === index 
+                                ? {
+                                    ...content,
+                                    links: content.links.map((link, j) =>
+                                      j === linkIndex 
+                                        ? { ...link, title: e.target.value } 
+                                        : link
+                                    )
+                                  }
+                                : content
+                            );
                             setCourseContentData(updatedData);
                           }}
                         />
