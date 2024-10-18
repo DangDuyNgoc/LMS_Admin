@@ -50,9 +50,11 @@ const AllCourses = () => {
       renderCell: (params) => {
         return (
           <>
+            <div className="flex justify-center items-center h-full">
               <Link href={`/admin/edit-course/${params.row.id}`}>
-              <FiEdit2 className="dark:text-white text-black" size={20} />
+                <FiEdit2 className="dark:text-white text-black" size={20} />
               </Link>
+            </div>
           </>
         );
       },

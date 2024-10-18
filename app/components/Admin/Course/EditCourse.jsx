@@ -39,7 +39,7 @@ const EditCourse = ({ id }) => {
         price: editCourseData.price,
         estimatedPrice: editCourseData.estimatedPrice,
         categories: editCourseData.categories,
-        tag: editCourseData.tag,
+        tags: editCourseData.tags,
         level: editCourseData.level,
         demoUrl: editCourseData.demoUrl,
         thumbnail: editCourseData.thumbnail?.url,
