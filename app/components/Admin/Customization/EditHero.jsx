@@ -28,6 +28,8 @@ const EditHero = () => {
     }
   }, [isSuccess, error, refetch]);
 
+  console.log("API response data: ", data);
+
   useEffect(() => {
     if (data) {
       setTitle(data?.layout?.banner.title);
@@ -105,9 +107,9 @@ const EditHero = () => {
               styles.button
             } !w-[100px] !min-h-[40px] !h-[40px] dark:text-white text-black bg-[#cccccc34]
               ${
-                data.layout.banner.title !== title ||
-                data.layout.banner.subTitle !== subTitle ||
-                data.layout.banner.image.url !== image
+                data?.layout?.banner?.title !== title ||
+                data?.layout?.banner?.subTitle !== subTitle ||
+                data?.layout?.banner?.image.url !== image
                   ? handleEdit
                   : () => null
               }

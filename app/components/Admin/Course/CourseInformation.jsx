@@ -1,6 +1,7 @@
 import { styles } from "@/app/styles/style";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useGetHeroDataQuery } from "@/redux/features/layout/layoutApi";
 
 const CourseInformation = ({
   courseInfo,
@@ -10,6 +11,14 @@ const CourseInformation = ({
 }) => {
   const [dragging, setDragging] = useState(false);
   const [categories, setCategories] = useState([]);
+
+  const { data } = useGetHeroDataQuery("Categories", {});
+
+  useEffect(() => {
+    if (data) {
+      setCategories(data.layout.categories);
+    }
+  }, [data]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

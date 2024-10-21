@@ -29,7 +29,7 @@ const CreateCourse = () => {
     description: "",
     price: "",
     categories: "",
-    tag: "",
+    tags: "",
     level: "",
     demoUrl: "",
     thumbnail: "",
@@ -41,6 +41,7 @@ const CreateCourse = () => {
       title: "",
       description: "",
       videoSection: "Untitled Section",
+      videoLength: "",
       links: [
         {
           title: "",
