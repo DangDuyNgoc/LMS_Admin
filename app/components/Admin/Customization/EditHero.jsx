@@ -59,6 +59,11 @@ const EditHero = () => {
       subTitle
     })
   }
+
+  const isChanged = data?.layout?.banner?.title !== title ||
+                  data?.layout?.banner?.subTitle !== subTitle ||
+                  data?.layout?.banner?.image.url !== image;
+
   return (
     <>
       <div className="w-full 1000px:flex items-center">
@@ -88,7 +93,7 @@ const EditHero = () => {
           <textarea
             className="dark:text-white resize-none text-[#000000c7] text-[30px] px-3 w-full 1000px:text-[60px] 1500px:text-[70px] font-[600] font-Josefin py-2 1000px:leading-[75px] 1500px:w-[60%] 1100px:w-[78%] outline-none bg-transparent block"
             placeholder="Improve Your Online Learning Experience Better Instantly"
-            rows={4}
+            rows={1}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -103,17 +108,8 @@ const EditHero = () => {
           <br />
           <br />
           <div
-            className={`${
-              styles.button
-            } !w-[100px] !min-h-[40px] !h-[40px] dark:text-white text-black bg-[#cccccc34]
-              ${
-                data?.layout?.banner?.title !== title ||
-                data?.layout?.banner?.subTitle !== subTitle ||
-                data?.layout?.banner?.image.url !== image
-                  ? handleEdit
-                  : () => null
-              }
-            `}
+            className={`${styles.button} !w-[100px] !min-h-[40px] !h-[40px] dark:text-white text-black bg-[#cccccc34]`}
+            onClick={isChanged ? handleEdit : null}
           >
             Save
           </div>

@@ -17,7 +17,26 @@ export const layoutApi = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `/layout/delete-category/${id}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+    }),
+    deleteFaq: builder.mutation({
+      query: (id) => ({
+        url: `/layout/delete-faq/${id}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
-export const { useGetHeroDataQuery, useUpdateLayoutMutation } = layoutApi;
+export const {
+  useGetHeroDataQuery,
+  useUpdateLayoutMutation,
+  useDeleteCategoryMutation,
+  useDeleteFaqMutation
+} = layoutApi;

@@ -13,7 +13,7 @@ import {
   YAxis,
 } from "recharts";
 
-const OrderAnalytics = () => {
+const OrderAnalytics = ({ isDashboard }) => {
   const { data, isLoading } = useGetOrdersAnalyticsQuery();
 
   const analyticsData = [];

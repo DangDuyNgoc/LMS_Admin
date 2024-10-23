@@ -4,6 +4,7 @@ import { HiMinus, HiPlus } from "react-icons/hi";
 import {
   useGetHeroDataQuery,
   useUpdateLayoutMutation,
+  useDeleteFaqMutation
 } from "@/redux/features/layout/layoutApi";
 import { styles } from "@/app/styles/style";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -13,9 +14,11 @@ import Loader from "./../../Loader/Loader";
 
 const EditFaq = () => {
   const [questions, setQuestions] = useState([]);
-  const { data, isLoading } = useGetHeroDataQuery("Banner", {
+  const { data, isLoading } = useGetHeroDataQuery("FAQ", {
     refetchOnMountOrArgChange: true,
   });
+
+  const [deleteFaq, {isSuccess: deleteFaqSuccess, error: deleteFaqError}] = useDeleteFaqMutation();
 
   const [updateLayout, { isSuccess, error }] = useUpdateLayoutMutation();
 
@@ -28,28 +31,39 @@ const EditFaq = () => {
     }
   }, [isSuccess, error]);
 
+    useEffect(() => {
+    if (deleteFaqSuccess) {
+      toast.success("FAQ Deleted Successfully");
+    }
+    if (deleteFaqError) {
+      toast.error(deleteFaqError.data?.message || "Something went wrong~");
+    }
+  }, [deleteFaqError, deleteFaqSuccess]);
+
   useEffect(() => {
     if (data) {
       setQuestions(data.layout.faq);
     }
   }, [data]);
 
+  console.log("data in faq: ", data);
+
   const toggleQuestion = (id) => {
-    setQuestions((preQuestion) => {
-      preQuestion.map((q) => (q._id === id ? { ...q, active: !q.active } : q));
-    });
+    setQuestions((preQuestion) => 
+      preQuestion.map((q) => (q._id === id ? { ...q, active: !q.active } : q))
+    );
   };
 
   const handleQuestionChange = (id, value) => {
-    setQuestions((preQuestion) => {
-      preQuestion.map((q) => (q._id === id ? { ...q, question: value } : q));
-    });
+    setQuestions((preQuestion) => 
+      preQuestion.map((q) => (q._id === id ? { ...q, question: value } : q))
+    );
   };
 
   const handleAnswerChange = (id, value) => {
-    setQuestions((preQuestion) => {
-      preQuestion.map((q) => (q._id === id ? { ...q, answer: value } : q));
-    });
+    setQuestions((preQuestion) => 
+      preQuestion.map((q) => (q._id === id ? { ...q, answer: value } : q))
+    );
   };
 
   const newFaqHandler = () => {
@@ -70,6 +84,13 @@ const EditFaq = () => {
   const isAnyQuestionEmpty = (question) => {
     return question.some((q) => q.question === "" || q.answer === "");
   };
+
+  const handleDeleteFaq = async (id) => {
+    await deleteFaq(id);
+    setQuestions((preQuestion) =>
+      preQuestion.filter((q) => q._id !== id)
+    );  
+  }
 
   const handleEdit = async () => {
     if (
@@ -104,8 +125,8 @@ const EditFaq = () => {
                       onClick={() => toggleQuestion(item._id)}
                     >
                       <input
-                        className={`${styles.input} border-none`}
-                        value={item.questions}
+                        className={`${styles.input} border-2`}
+                        value={item.question}
                         placeholder="Add your question....."
                         onChange={(e) =>
                           handleQuestionChange(item._id, e.target.value)
@@ -125,7 +146,7 @@ const EditFaq = () => {
                   {item.active && (
                     <dd className="mt-2 pr-12">
                       <input
-                        className={`${styles.input} border-none`}
+                        className={`${styles.input} border-2`}
                         value={item.answer}
                         placeholder="Add your answer...."
                         onChange={(e) =>
@@ -135,11 +156,7 @@ const EditFaq = () => {
                       <span className="ml-6 flex-shrink-0">
                         <AiOutlineDelete
                           className="dark:text-white text-black text-[18px] cursor-pointer"
-                          onClick={() => {
-                            setQuestions((preQuestion) =>
-                              preQuestion.filter((q) => q._id !== item._id)
-                            );
-                          }}
+                          onClick={() =>handleDeleteFaq(item._id)}
                         />
                       </span>
                     </dd>

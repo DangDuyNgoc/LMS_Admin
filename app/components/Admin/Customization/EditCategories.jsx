@@ -4,12 +4,19 @@ import { styles } from "@/app/styles/style";
 import { AiOutlineDelete } from "react-icons/ai";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { toast } from "react-hot-toast";
+import {
+  useGetHeroDataQuery,
+  useUpdateLayoutMutation,
+  useDeleteCategoryMutation,
+} from "@/redux/features/layout/layoutApi";
 
 const EditCategories = () => {
   const [categories, setCategories] = useState([]);
   const { data, isLoading, refetch } = useGetHeroDataQuery("Categories", {
     refetchOnMountOrArgChange: true,
   });
+
+  const [deleteCategory] = useDeleteCategoryMutation();
 
   const [updateLayout, { isSuccess, error }] = useUpdateLayoutMutation();
 
@@ -18,6 +25,8 @@ const EditCategories = () => {
       setCategories(data.layout.categories);
     }
   }, [data]);
+
+  console.log("data in categories layout: ", data);
 
   useEffect(() => {
     if (isSuccess) {
@@ -30,13 +39,21 @@ const EditCategories = () => {
   }, [isSuccess, error, refetch]);
 
   const handleCategoryCreate = (id, value) => {
-    setCategories((preCate) => {
-      preCate.map((i) => (i._id === id ? { ...i, title: value } : i));
-    });
+    setCategories((preCate) => 
+      preCate.map((i) => (i._id === id ? { ...i, title: value } : i))
+    );
+  };
+
+  const handleDeleteCategory = async (id) => {
+    await deleteCategory(id);
+    setCategories((prevCategory) =>
+      prevCategory.filter((category) => category._id !== id)
+    );
+    toast.success("Deleted Category Successfully");
   };
 
   const newCategoriesHandler = () => {
-    if (categories[categories.length - 1].title === "") {
+    if (categories.length === 0 || categories[categories.length - 1].title === "") {
       toast.error("Category title cannot be empty!");
     } else {
       setCategories((preCate) => [...preCate, { title: "" }]);
@@ -48,18 +65,24 @@ const EditCategories = () => {
   };
 
   const isAnyCategoryTitleEmpty = (categories) => {
+    console.log("categories :", categories);
     return categories.some((cate) => cate.title === "");
   };
 
   const editCategoriesHandler = async () => {
-    if (
-      !areCategoriesUnchanged(data.layout.categories, categories) &&
-      !isAnyCategoryTitleEmpty(categories)
-    ) {
-      await updateLayout({
-        type: "Categories",
-        categories,
-      });
+    try {
+      if (
+        !areCategoriesUnchanged(data.layout.categories, categories) &&
+        !isAnyCategoryTitleEmpty(categories)
+      ) {
+        await updateLayout({
+          type: "Categories",
+          categories,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to update categories");
     }
   };
 
@@ -76,7 +99,7 @@ const EditCategories = () => {
                 <div key={index} className="p-3">
                   <div className="flex items-center w-full justify-center">
                     <input
-                      className={`${styles.input} !w-[unset] !border-none !text-[20px]`}
+                      className={`${styles.input} !w-[unset] border-2 !text-[20px]`}
                       value={item.title}
                       onChange={(e) =>
                         handleCategoryCreate(item._id, e.target.value)
@@ -85,11 +108,7 @@ const EditCategories = () => {
                     />
                     <AiOutlineDelete
                       className="dark:text-white text-black text-[18px] cursor-pointer"
-                      onClick={() => {
-                        setCategories((prevCategory) =>
-                          prevCategory.filter((i) => i._id !== item._id)
-                        );
-                      }}
+                      onClick={() => handleDeleteCategory(item._id)}
                     />
                   </div>
                 </div>

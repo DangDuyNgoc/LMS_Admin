@@ -11,7 +11,7 @@ import {
   YAxis,
 } from "recharts";
 
-const UserAnalytics = () => {
+const UserAnalytics = ({isDashboard}) => {
   const { data, isLoading, isError } = useGetUsersAnalyticsQuery();
 
   const analyticsData = [];
@@ -26,6 +26,7 @@ const UserAnalytics = () => {
       {isLoading ? (
         <Loader />
       ) : (
+        
         <div
           className={`${
             !isDashboard

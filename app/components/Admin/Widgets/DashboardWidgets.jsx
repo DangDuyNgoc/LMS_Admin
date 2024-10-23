@@ -1,9 +1,9 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { BiBorderLeft } from "react-icons/bi";
 import { PiUsersFourLight } from "react-icons/pi";
 
-import { useGetUsersAnalyticsQuery } from "@/redux/features/analytics/analyticsApi";
+import { useGetUsersAnalyticsQuery, useGetOrdersAnalyticsQuery } from "@/redux/features/analytics/analyticsApi";
 import UserAnalytics from "../Analytics/UserAnalytics";
 import OrderAnalytics from "../Analytics/OrderAnalytics";
 import AllInvoices from './../Order/AllInvoices';
